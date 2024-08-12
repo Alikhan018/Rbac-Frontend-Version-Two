@@ -1,4 +1,3 @@
-import "./scss/users.css";
 import React, { useEffect, useState } from "react";
 import Table from "../../components/shared/Table/Table";
 import Error from "../../components/Error/Error";
@@ -42,8 +41,8 @@ export default function Users() {
   };
   return (
     <>
-      <div className="user-container">
-        <h1>Users</h1>
+      <div className="w-[100%] flex flex-col justify-center items-center py-[20px]">
+        <h1 className="text-[28px] pb-[20px]">Users</h1>
         {err && <Error />}
         {users && (
           <Table

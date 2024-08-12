@@ -18,27 +18,16 @@ export default function AddUpdate({ entity, icon, task }) {
   const id = location.state?.id || 0;
   const nav = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
-  const styles = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: "20px",
-    borderRadius: "20px",
-    gap: "15px",
-    backgroundColor: "rgb(236, 236, 236)",
-  };
   return (
-    <div style={styles}>
-      <h3 style={{ textTransform: "uppercase" }}>
+    <div className="flex flex-col items-center p-[20px] border-radius-[20px] gap-[15px] bg-gray-100">
+      <h3 className="md:uppercase text-2xl">
         <FontAwesomeIcon icon={icon} style={{ paddingRight: "10px" }} />
         {task} {entity}
       </h3>
       {entity === "user" && task === "change-password" && (
         <>
           {errorMessage && (
-            <div style={{ color: "red", marginTop: "10px" }}>
-              {errorMessage}
-            </div>
+            <div className="text-red-400 mt-[10px]">{errorMessage}</div>
           )}
           <Form
             task={task}
@@ -63,9 +52,7 @@ export default function AddUpdate({ entity, icon, task }) {
       {entity === "user" && task !== "change-password" && (
         <>
           {errorMessage && (
-            <div style={{ color: "red", marginTop: "10px" }}>
-              {errorMessage}
-            </div>
+            <div className="text-red-400 mt-[10px]">{errorMessage}</div>
           )}
           <Form
             task={task}

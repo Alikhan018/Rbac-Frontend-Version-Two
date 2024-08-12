@@ -41,8 +41,8 @@ export default function Groups() {
   };
   return (
     <>
-      <div className="user-container">
-        <h1>Groups</h1>
+      <div className="w-[100%] flex flex-col justify-center items-center py-[20px]">
+        <h1 className="text-[28px] pb-[20px]">Groups</h1>
         {err && <Error />}
         {groups && (
           <Table

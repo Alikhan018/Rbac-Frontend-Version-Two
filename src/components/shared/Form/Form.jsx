@@ -1,4 +1,4 @@
-import "./scss/form.css";
+// import "./scss/form.css";
 import React, { useState, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import Button from "../Button/Button";
@@ -156,8 +156,11 @@ export default function Form({
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
-      <div className="form-fields">
+    <form
+      className="flex flex-col w-[500px] justify-center gap-4"
+      onSubmit={handleSubmit}
+    >
+      <div className="flex flex-col gap-1">
         {Err && <div style={{ color: "red" }}>Invalid Credentials!</div>}
         {inputs
           .filter((input) => input.options.type !== "button")
@@ -172,13 +175,13 @@ export default function Form({
                 ? selectList[name]
                 : [];
               return (
-                <div key={id} className="input-select">
+                <div key={id} className="flex w-full gap-3">
                   <Autocomplete
                     disablePortal
                     id={id}
                     options={optionsList}
                     sx={{
-                      width: 430,
+                      width: 417,
                       backgroundColor: "white",
                     }}
                     getOptionLabel={(option) =>
@@ -202,8 +205,9 @@ export default function Form({
             }
 
             return (
-              <div key={id} className="input">
+              <div key={id} className="flex flex-col">
                 <input
+                  className="peer p-1 h-[43px] w-[495px] border border-gray-300 focus:outline-none focus:border-blue-500 valid:border-blue-500 valid:outline-none text-sm rounded-md"
                   name={name}
                   id={id}
                   type={type}
@@ -211,7 +215,14 @@ export default function Form({
                   onChange={handleChange}
                   required={required}
                 />
-                <label htmlFor={id} className="placeholder">
+                <label
+                  htmlFor={id}
+                  className="relative -top-8 left-2 text-gray-500 duration-100 peer-focus:top-[-41px] 
+               peer-focus:left-[4px] peer-focus:text-blue-500 peer-focus:bg-white 
+               peer-focus:text-[9px] peer-valid:top-[-41px] 
+               peer-valid:left-[7px] peer-valid:text-blue-500 peer-valid:bg-white 
+               peer-valid:text-[9px] peer-focus: w-[150px]"
+                >
                   {label}
                 </label>
               </div>
@@ -220,11 +231,32 @@ export default function Form({
       </div>
 
       {type === "add/update" && (
-        <div className="table-view">
-          <div className="form-nav">
-            {showRoles && <p onClick={() => setSelected("roles")}>Roles</p>}
-            {showUsers && <p onClick={() => setSelected("users")}>Users</p>}
-            {showGroups && <p onClick={() => setSelected("groups")}>Groups</p>}
+        <div className="flex flex-col gap-2">
+          <div className="flex gap-5">
+            {showRoles && (
+              <p
+                className="cursor-pointer text-lg"
+                onClick={() => setSelected("roles")}
+              >
+                Roles
+              </p>
+            )}
+            {showUsers && (
+              <p
+                className="cursor-pointer text-lg"
+                onClick={() => setSelected("users")}
+              >
+                Users
+              </p>
+            )}
+            {showGroups && (
+              <p
+                className="cursor-pointer text-lg"
+                onClick={() => setSelected("groups")}
+              >
+                Groups
+              </p>
+            )}
             {selected && (
               <div
                 className={`
@@ -249,11 +281,15 @@ export default function Form({
           />
         </div>
       )}
-      <div className="form-buttons">
+      <div className="flex flex-col items-end gap-1">
         {inputs
           .filter((input) => input.options.type === "button")
           .map((button) => (
-            <button key={button.id} type={button.type}>
+            <button
+              className="w-[200px] py-2 px-1 bg-blue-700  rounded-md cursor-pointer text-white border-1 border-blue-700 border-solid hover:bg-blue-900 hover:border-1 hover:border-blue-900"
+              key={button.id}
+              type={button.type}
+            >
               {button.label}
             </button>
           ))}

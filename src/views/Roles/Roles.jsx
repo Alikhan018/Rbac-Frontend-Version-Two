@@ -35,16 +35,16 @@ export default function Groups() {
     }
   };
   const onEdit = (id) => {
-    navigate("/edit-role", {state: {id}});
+    navigate("/edit-role", { state: { id } });
   };
   const handleAddClick = () => {
     navigate("/add-new-role");
   };
   return (
     <>
-      <div className="user-container">
+      <div className="w-[100%] flex flex-col justify-center items-center py-[20px]">
         {err && <Error />}
-        <h1>Roles</h1>
+        <h1 className="text-[28px] pb-[20px]">Roles</h1>
         {roles && (
           <Table
             header={headerRoles}

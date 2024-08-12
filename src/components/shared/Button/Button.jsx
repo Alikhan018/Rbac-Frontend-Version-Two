@@ -1,17 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import "./scss/button.css";
 
 export default function Button({ text, type, icon, onClick }) {
-  let className;
+  let className =
+    "py-[5px] px-[10px] text-white rounded-lg cursor-pointer border-none flex items-center justify-around gap-[5px]";
   if (type === "submit") {
-    className = "primary";
+    className = `${className} bg-blue-800 hover:bg-blue-900`;
   }
   if (type === "reset") {
-    className = "danger";
+    className = `${className} bg-red-700 hover:bg-red-900`;
   }
   if (type === "button") {
-    className = "success";
+    className = `${className} bg-green-700 hover:bg-green-900`;
   }
   return (
     <button type={type} className={className} onClick={onClick}>

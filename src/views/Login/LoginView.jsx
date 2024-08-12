@@ -1,4 +1,4 @@
-import "./login.css";
+// import "./login.css";
 import React from "react";
 import Form from "../../components/shared/Form/Form.jsx";
 import { loginForm } from "../../props/forms.js";
@@ -22,9 +22,9 @@ export default function LoginView() {
     }
   };
   return (
-    <div className="container">
+    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-2 w-[550px] h-[300px] flex justify-center items-center bg-gray-200 rounded-lg">
       <Form
-      task={"login"}
+        task={"login"}
         Err={err}
         inputs={loginForm}
         type={"login"}

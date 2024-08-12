@@ -1,4 +1,3 @@
-import "./scss/datacomp.css";
 import React, { useMemo, useState } from "react";
 import BasicTable from "../MaterialTable/MT";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,8 +26,8 @@ export default function DataComponent({
   }, [showUsers, showGroups, showRoles]);
   const [selected, setSelected] = useState(initialSelected);
   return (
-    <div className="data-comp">
-      <div className="data-left">
+    <div className="flex gap-[60px]">
+      <div className="flex flex-col gap-[10px]">
         <FontAwesomeIcon
           icon={icon}
           style={{ width: "200px", height: "50px" }}
@@ -84,19 +83,54 @@ export default function DataComponent({
           }}
         />
       </div>
-      <div className="data-right">
-        <div className="details">
-          <h3>{entity.name || entity.email}</h3>
+      <div className="flex flex-col gap-[20px]">
+        <div className="flex flex-col gap-[10px]">
+          <h3 className="md:uppercase text-[26px]">
+            {entity.name || entity.email}
+          </h3>
           <div>
-            {showRoles && <p>Roles: {entity["roles"]?.length}</p>}
-            {showUsers && <p>Users: {entity["users"]?.length}</p>}
-            {showGroups && <p>Groups: {entity["groups"]?.length}</p>}
+            {showRoles && (
+              <p className="text-[14px] hover:text-blue-900">
+                Roles: {entity["roles"]?.length}
+              </p>
+            )}
+            {showUsers && (
+              <p className="text-[14px] hover:text-blue-900">
+                Users: {entity["users"]?.length}
+              </p>
+            )}
+            {showGroups && (
+              <p className="text-[14px] hover:text-blue-900">
+                Groups: {entity["groups"]?.length}
+              </p>
+            )}
           </div>
         </div>
-        <div className="navigation">
-          {showRoles && <p onClick={() => setSelected("roles")}>Roles</p>}
-          {showUsers && <p onClick={() => setSelected("users")}>Users</p>}
-          {showGroups && <p onClick={() => setSelected("groups")}>Groups</p>}
+        <div className="flex gap-[20px]">
+          {showRoles && (
+            <p
+              className="cursor-pointer text-[20px] hover:text-blue-900"
+              onClick={() => setSelected("roles")}
+            >
+              Roles
+            </p>
+          )}
+          {showUsers && (
+            <p
+              className="cursor-pointer text-[20px] hover:text-blue-900"
+              onClick={() => setSelected("users")}
+            >
+              Users
+            </p>
+          )}
+          {showGroups && (
+            <p
+              className="cursor-pointer text-[20px] hover:text-blue-900"
+              onClick={() => setSelected("groups")}
+            >
+              Groups
+            </p>
+          )}
           <div
             className={`
                   ${showRoles && showUsers ? `underline-${selected}-two` : ""}

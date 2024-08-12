@@ -1,4 +1,3 @@
-import "./scss/card.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import UserServices from "../../../services/users.services.js";
 import RolesServices from "../../../services/roles.services.js";
@@ -27,15 +26,15 @@ export default function Card({ entity }) {
     getCount();
   }, [entity.name]);
   return (
-    <div className="layout">
+    <div className="w-[300px] box-border p-[20px] border border-solid border-gray-300">
       <div
-        className="card"
+        className="flex flex-col gap-[10px] cursor-pointer hover:text-blue-900"
         onClick={() => {
           navigate(`/${entity.link}`);
         }}
       >
-        <div className="upper-card">
-          <div className="upper-inner">
+        <div className="flex justify-between items-center">
+          <div className="flex gap-[5px] items-center">
             <FontAwesomeIcon icon={entity.icon} />
             <span>{entity.name}</span>
           </div>
@@ -43,7 +42,7 @@ export default function Card({ entity }) {
             <FontAwesomeIcon icon={faUpRightFromSquare} className="open" />
           </Link> */}
         </div>
-        <div className="lower-card">
+        <div className="">
           Total {entity.name}: {number}
         </div>
       </div>

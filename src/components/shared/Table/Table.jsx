@@ -1,4 +1,3 @@
-import "./scss/table.css";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
@@ -23,24 +22,26 @@ export default function Table({
   const keys = Object.keys(header);
 
   return (
-    <div className="table-component-container">
+    <div className="w-[90%] flex items-end flex-col gap-[10px]">
       {addBtn && (
         <Button text={btnText} type={"submit"} icon={faAdd} onClick={onAdd} />
       )}
-      <div className="table">
-        <div className="table-head">
+      <div className="w-[100%] flex flex-col">
+        <div className="px-[5px] box-border flex w-[100%] justify-between bg-blue-800 text-white border border-blue-800">
           {keys.map((key, index) => (
-            <span className="table-cell" key={index}>
+            <span className="w-[25%] text-left" key={index}>
               {header[key]}
             </span>
           ))}
         </div>
-        <div className="table-body">
+        <div className="px-[5px] box-border border border-solid border-black w-[100%]">
           {data.map((tuple, tupleIndex) => (
             <div
               key={tupleIndex}
-              className="table-row"
-              style={{ color: hoveredIndex === tupleIndex ? "blue" : "black" }}
+              className="flex w-[100%] border-b border-black justify-between cursor-pointer last:border-b-0"
+              style={{
+                color: hoveredIndex === tupleIndex ? "#0D47A1" : "black",
+              }}
               onMouseEnter={() => setHoveredIndex(tupleIndex)}
               onMouseLeave={() => setHoveredIndex(null)}
               onClick={() => {
@@ -51,6 +52,7 @@ export default function Table({
             >
               {keys.map((key, keyIndex) => (
                 <span
+                  className="w-[25%] text-left"
                   key={keyIndex}
                   data-label={key}
                   style={{ position: "relative" }}
