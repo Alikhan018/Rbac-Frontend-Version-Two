@@ -160,12 +160,14 @@ export default function DataComponent({
                 `}
           ></div>
         </div>
-        <BasicTable
-          rows={entity[selected]}
-          onDelete={() => {}}
-          action={false}
-          entity={selected}
-        />
+        {selected && (
+          <BasicTable
+            rows={entity[selected]}
+            onDelete={() => {}}
+            action={false}
+            entity={selected}
+          />
+        )}
       </div>
     </div>
   );

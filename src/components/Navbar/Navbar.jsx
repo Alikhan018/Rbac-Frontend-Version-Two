@@ -1,14 +1,31 @@
 import logo from "../../assets/images/logo-navbar.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SettingsDropDown from "../SettingsDropDown/SettingsDropDown";
 import { Link, useNavigate } from "react-router-dom";
+import WithAuth from "../../hoc/WithAuth";
 
-export default function Navbar() {
+export default WithAuth(function Navbar() {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate();
+
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsClicked(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef]);
 
   const iconStyle = {
     fontSize: "18px",
@@ -53,11 +70,15 @@ export default function Navbar() {
             setIsHovered(false);
           }}
           onClick={() => {
-            setIsClicked(!isClicked);
+            setIsClicked((prev) => !prev);
           }}
         />
       </div>
-      {isClicked && <SettingsDropDown />}
+      {isClicked && (
+        <div ref={dropdownRef}>
+          <SettingsDropDown />
+        </div>
+      )}
     </div>
   );
-}
+});

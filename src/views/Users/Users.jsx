@@ -4,8 +4,9 @@ import Error from "../../components/Error/Error";
 import UserServices from "../../services/users.services";
 import { headerUsers } from "../../props/tables";
 import { useNavigate } from "react-router-dom";
+import withAuth from "../../hoc/WithAuth";
 
-export default function Users() {
+function Users() {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [err, setErr] = useState(false);
@@ -59,3 +60,5 @@ export default function Users() {
     </>
   );
 }
+
+export default withAuth(Users);

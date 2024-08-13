@@ -1,18 +1,23 @@
-// import "./login.css";
 import React from "react";
 import Form from "../../components/shared/Form/Form.jsx";
 import { loginForm } from "../../props/forms.js";
 import UserServices from "../../services/users.services.js";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider.jsx";
 
 export default function LoginView() {
+  const { setToken } = React.useContext(AuthContext);
+  const navigate = useNavigate();
   const [err, setErr] = useState(false);
   const handleLogin = async (logdata) => {
     const us = new UserServices();
     try {
       const data = await us.login(logdata);
       if (data.message === "logged in") {
-        console.log(data);
+        localStorage.setItem("token", data.token);
+        setToken(data.token);
+        navigate("/home");
         setErr(false);
       } else {
         setErr(true);

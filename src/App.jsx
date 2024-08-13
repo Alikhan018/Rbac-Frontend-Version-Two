@@ -1,21 +1,25 @@
 import Home from "./views/HomeView/Home";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LoginView from "./views/Login/LoginView";
-import Layout from "./components/Layout/Layout";
 import Users from "./views/Users/Users";
 import Groups from "./views/Groups/Groups";
 import Roles from "./views/Roles/Roles";
-import { faUser, faUserGroup, faGear } from "@fortawesome/free-solid-svg-icons";
 import AddUpdate from "./views/AddUpdate/AddUpdate";
+import LoginView from "./views/Login/LoginView";
+import Layout from "./components/Layout/Layout";
 import ViewData from "./views/View-Mode/ViewData";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { faUser, faUserGroup, faGear } from "@fortawesome/free-solid-svg-icons";
+import WithAuth from "./hoc/WithAuth";
+import React from "react";
+
+const ProtectedLayout = WithAuth(Layout);
 
 function App() {
   return (
-    <>
+    <React.Fragment>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginView />} />
-          <Route path="/" element={<Layout />}>
+          <Route path="/" element={<ProtectedLayout />}>
             <Route path="home" element={<Home />} />
             <Route path="users" element={<Users />} />
             <Route path="groups" element={<Groups />} />
@@ -102,7 +106,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </React.Fragment>
   );
 }
 

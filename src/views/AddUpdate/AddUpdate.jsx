@@ -13,7 +13,7 @@ import {
 } from "../../props/formHandlers";
 import { useNavigate, useLocation } from "react-router-dom";
 
-export default function AddUpdate({ entity, icon, task }) {
+function AddUpdate({ entity, icon, task }) {
   const location = useLocation();
   const id = location.state?.id || 0;
   const nav = useNavigate();
@@ -108,3 +108,5 @@ export default function AddUpdate({ entity, icon, task }) {
     </div>
   );
 }
+
+export default AddUpdate;

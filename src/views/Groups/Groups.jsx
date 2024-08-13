@@ -4,7 +4,6 @@ import Table from "../../components/shared/Table/Table";
 import Error from "../../components/Error/Error";
 import { headerGroups } from "../../props/tables";
 import { useNavigate } from "react-router-dom";
-
 export default function Groups() {
   const navigate = useNavigate();
   const [groups, setGroups] = useState([]);

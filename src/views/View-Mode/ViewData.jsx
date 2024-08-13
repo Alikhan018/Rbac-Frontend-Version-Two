@@ -1,4 +1,3 @@
-import "./scss/view.css";
 import React, { useEffect, useState, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchData } from "../../services/index.services";
@@ -29,9 +28,9 @@ export default function ViewData({ entity, showUsers, showRoles, showGroups }) {
   return (
     <div>
       {id ? (
-        <div className="view-container">
+        <div className="w-[100%] flex flex-col justify-center items-center py-[20px] px-[0px] bg-gray-200">
           <DataComponent
-          type={entity}
+            type={entity}
             entity={data}
             icon={icon}
             showUsers={showUsers}
