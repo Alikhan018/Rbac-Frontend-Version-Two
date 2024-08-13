@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider.jsx";
 
 export default function LoginView() {
-  const { setToken } = React.useContext(AuthContext);
+  const { token, setToken } = React.useContext(AuthContext);
   const navigate = useNavigate();
   const [err, setErr] = useState(false);
   const handleLogin = async (logdata) => {
@@ -26,6 +26,10 @@ export default function LoginView() {
       setErr(true);
     }
   };
+  if (token) {
+    navigate("/home");
+    return;
+  }
   return (
     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-2 w-[550px] h-[300px] flex justify-center items-center bg-gray-200 rounded-lg">
       <Form

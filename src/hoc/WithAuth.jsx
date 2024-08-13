@@ -1,8 +1,10 @@
 import React from "react";
 import { AuthContext } from "../context/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const WithAuth = (WrappedComponent) => {
   return function AuthWrappedComponent(props) {
+    const nav = useNavigate();
     const { token, loading } = React.useContext(AuthContext);
 
     if (loading) {
@@ -10,7 +12,8 @@ const WithAuth = (WrappedComponent) => {
     }
 
     if (!token) {
-      return <div>Please log in</div>;
+      nav("/");
+      return;
     }
 
     return <WrappedComponent {...props} />;
