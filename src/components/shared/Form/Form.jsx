@@ -269,6 +269,7 @@ export default function Form({
           </div>
           <BasicTable
             rows={formData[selected] || []}
+            entity={selected}
             onDelete={(id) => {
               setFormData((prevFormData) => ({
                 ...prevFormData,

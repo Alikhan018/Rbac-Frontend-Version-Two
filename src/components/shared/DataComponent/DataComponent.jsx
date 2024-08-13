@@ -8,6 +8,19 @@ import UserServices from "../../../services/users.services";
 import RolesServices from "../../../services/roles.services";
 import GroupServices from "../../../services/groups.services";
 
+const designs = {
+  roles:
+    "relative top-[25px] left-[-136px] border border-solid border-blue-900 h-[0px] w-[50px]",
+  users:
+    "relative top-[25px] left-[-69px] border border-solid border-blue-900 h-[0px] w-[50px]",
+  users_two:
+    "relative top-[25px] left-[-148px] border border-solid border-blue-900 h-[0px] w-[50px]",
+  groups_two:
+    "relative top-[25px] left-[-78px] border border-solid border-blue-900 h-[0px] w-[60px]",
+  roles_two:
+    "relative top-[25px] left-[-148px] border border-solid border-blue-900 h-[0px] w-[50px]",
+};
+
 export default function DataComponent({
   type,
   entity,
@@ -133,9 +146,17 @@ export default function DataComponent({
           )}
           <div
             className={`
-                  ${showRoles && showUsers ? `underline-${selected}-two` : ""}
-                  ${showGroups && showUsers ? `underline-${selected}` : ""}
-                  ${showRoles && showGroups ? `underline-${selected}` : ""}
+                  ${showRoles && showUsers ? `${designs[selected]}` : ""}
+                  ${
+                    showGroups && showUsers
+                      ? `${designs[`${selected}_two`]}`
+                      : ""
+                  }
+                  ${
+                    showRoles && showGroups
+                      ? `${designs[`${selected}_two`]}`
+                      : ""
+                  }
                 `}
           ></div>
         </div>
@@ -143,6 +164,7 @@ export default function DataComponent({
           rows={entity[selected]}
           onDelete={() => {}}
           action={false}
+          entity={selected}
         />
       </div>
     </div>
