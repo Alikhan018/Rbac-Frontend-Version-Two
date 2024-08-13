@@ -22,7 +22,7 @@ export default function Groups() {
       }
     };
     getData();
-  }, []);
+  }, [roles]);
   const onDelete = (id) => {
     const rs = new RolesServices();
     try {

@@ -21,7 +21,7 @@ export default function Groups() {
       }
     };
     getData();
-  }, []);
+  }, [groups]);
   const onDelete = (id) => {
     const gs = new GroupServices();
     try {

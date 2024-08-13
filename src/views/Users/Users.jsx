@@ -23,7 +23,7 @@ function Users() {
       }
     };
     getData();
-  }, []);
+  }, [users]);
   const onDelete = (id) => {
     const us = new UserServices();
     try {
