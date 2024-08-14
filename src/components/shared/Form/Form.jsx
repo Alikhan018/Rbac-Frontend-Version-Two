@@ -12,6 +12,19 @@ import {
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 
+const designs = {
+  roles:
+    "relative top-[25px] left-[-126px] border border-solid border-blue-900 h-[0px] w-[45px]",
+  users:
+    "relative top-[25px] left-[-66px] border border-solid border-blue-900 h-[0px] w-[50px]",
+  users_two:
+    "relative top-[25px] left-[-137px] border border-solid border-blue-900 h-[0px] w-[45px]",
+  groups_two:
+    "relative top-[25px] left-[-76px] border border-solid border-blue-900 h-[0px] w-[60px]",
+  roles_two:
+    "relative top-[25px] left-[-136px] border border-solid border-blue-900 h-[0px] w-[45px]",
+};
+
 export default function Form({
   task,
   inputs,
@@ -260,9 +273,17 @@ export default function Form({
             {selected && (
               <div
                 className={`
-                  ${showRoles && showUsers ? `underline-${selected}-two` : ""}
-                  ${showGroups && showUsers ? `underline-${selected}` : ""}
-                  ${showRoles && showGroups ? `underline-${selected}` : ""}
+                  ${showRoles && showUsers ? `${designs[selected]}` : ""}
+                  ${
+                    showGroups && showUsers
+                      ? `${designs[`${selected}_two`]}`
+                      : ""
+                  }
+                  ${
+                    showRoles && showGroups
+                      ? `${designs[`${selected}_two`]}`
+                      : ""
+                  }
                 `}
               ></div>
             )}
