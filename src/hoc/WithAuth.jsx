@@ -7,7 +7,6 @@ const WithAuth = (WrappedComponent) => {
     const { token, loading } = React.useContext(AuthContext);
 
     useEffect(() => {
-      console.log(token);
       if (!loading && !token) {
         nav("/");
       }
