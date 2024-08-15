@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import BasicTable from "../MaterialTable/MT";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../Button/Button";
@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import UserServices from "../../../services/users.services";
 import RolesServices from "../../../services/roles.services";
 import GroupServices from "../../../services/groups.services";
+import { AuthContext } from "../../../context/AuthProvider";
+import { checkPerm } from "../../../utils/permissions.utils.js";
 
 const designs = {
   roles:
@@ -29,14 +31,45 @@ export default function DataComponent({
   showGroups,
   showUsers,
   onClick,
+  allowedGroups,
+  allowedRoles,
+  allowedUsers,
 }) {
   const navigate = useNavigate();
+  const { permissions } = useContext(AuthContext);
+
+  const [allowUpdate, setAllowUpdate] = useState(false);
+  const [allowDelete, setAllowDelete] = useState(false);
   const initialSelected = useMemo(() => {
-    if (showRoles) return "roles";
-    if (showUsers) return "users";
-    if (showGroups) return "groups";
+    if (allowedRoles && type !== "groups") return "roles";
+    if (allowedUsers && type !== "users") return "users";
+    if (allowedGroups && type !== "groups") return "groups";
     return "";
-  }, [showUsers, showGroups, showRoles]);
+  }, [type, allowedUsers, allowedRoles, allowedGroups]);
+
+  useEffect(() => {
+    if (
+      checkPerm(permissions, {
+        name: "Update",
+        entityType: type.charAt(0).toUpperCase() + type.slice(1),
+      })
+    ) {
+      setAllowUpdate(true);
+    } else {
+      setAllowUpdate(false);
+    }
+    if (
+      checkPerm(permissions, {
+        name: "Delete",
+        entityType: type.charAt(0).toUpperCase() + type.slice(1),
+      })
+    ) {
+      setAllowDelete(true);
+    } else {
+      setAllowDelete(false);
+    }
+  }, [type, permissions]);
+
   const [selected, setSelected] = useState(initialSelected);
   return (
     <div className="flex gap-[60px]">
@@ -45,56 +78,63 @@ export default function DataComponent({
           icon={icon}
           style={{ width: "200px", height: "50px" }}
         />
-        <Button
-          text={`Edit ${entity.name || entity.email}`}
-          type={"submit"}
-          icon={faPen}
-          onClick={() => {
-            navigate(`/edit-${type.slice(0, -1)}`, {
-              state: { id: entity.id },
-            });
-          }}
-        />
-        {!showUsers && (
+        {allowUpdate && (
+          <>
+            <Button
+              text={`Edit ${entity.name || entity.email}`}
+              type={"submit"}
+              icon={faPen}
+              onClick={() => {
+                navigate(`/edit-${type.slice(0, -1)}`, {
+                  state: { id: entity.id },
+                });
+              }}
+            />
+
+            {!showUsers && (
+              <Button
+                text={"Change Password"}
+                type={"button"}
+                icon={faKey}
+                onClick={onClick}
+              />
+            )}
+          </>
+        )}
+        {allowDelete && (
           <Button
-            text={"Change Password"}
-            type={"button"}
-            icon={faKey}
-            onClick={onClick}
+            text={`Delete ${entity.name || entity.email}`}
+            type={"reset"}
+            icon={faTrash}
+            onClick={async () => {
+              if (type === "users") {
+                const us = new UserServices();
+                try {
+                  us.deleteUser(entity.id);
+                } catch (err) {
+                  console.log(err);
+                }
+              }
+              if (type === "roles") {
+                const rs = new RolesServices();
+                try {
+                  rs.deleteRole(entity.id);
+                } catch (err) {
+                  console.log(err);
+                }
+              }
+              if (type === "groups") {
+                const gs = new GroupServices();
+                try {
+                  gs.deleteGroup(entity.id);
+                } catch (err) {
+                  console.log(err);
+                }
+              }
+              navigate(`/${type}`);
+            }}
           />
         )}
-        <Button
-          text={`Delete ${entity.name || entity.email}`}
-          type={"reset"}
-          icon={faTrash}
-          onClick={async () => {
-            if (type === "users") {
-              const us = new UserServices();
-              try {
-                us.deleteUser(entity.id);
-              } catch (err) {
-                console.log(err);
-              }
-            }
-            if (type === "roles") {
-              const rs = new RolesServices();
-              try {
-                rs.deleteRole(entity.id);
-              } catch (err) {
-                console.log(err);
-              }
-            }
-            if (type === "groups") {
-              const gs = new GroupServices();
-              try {
-                gs.deleteGroup(entity.id);
-              } catch (err) {
-                console.log(err);
-              }
-            }
-            navigate(`/${type}`);
-          }}
-        />
       </div>
       <div className="flex flex-col gap-[20px]">
         <div className="flex flex-col gap-[10px]">
@@ -102,17 +142,17 @@ export default function DataComponent({
             {entity.name || entity.email}
           </h3>
           <div>
-            {showRoles && (
+            {showRoles && allowedRoles && (
               <p className="text-[14px] hover:text-blue-900">
                 Roles: {entity["roles"]?.length}
               </p>
             )}
-            {showUsers && (
+            {showUsers && allowedUsers && (
               <p className="text-[14px] hover:text-blue-900">
                 Users: {entity["users"]?.length}
               </p>
             )}
-            {showGroups && (
+            {showGroups && allowedGroups && (
               <p className="text-[14px] hover:text-blue-900">
                 Groups: {entity["groups"]?.length}
               </p>
@@ -120,7 +160,7 @@ export default function DataComponent({
           </div>
         </div>
         <div className="flex gap-[20px]">
-          {showRoles && (
+          {showRoles && allowedRoles && (
             <p
               className="cursor-pointer text-[20px] hover:text-blue-900"
               onClick={() => setSelected("roles")}
@@ -128,7 +168,7 @@ export default function DataComponent({
               Roles
             </p>
           )}
-          {showUsers && (
+          {showUsers && allowedUsers && (
             <p
               className="cursor-pointer text-[20px] hover:text-blue-900"
               onClick={() => setSelected("users")}
@@ -136,7 +176,7 @@ export default function DataComponent({
               Users
             </p>
           )}
-          {showGroups && (
+          {showGroups && allowedGroups && (
             <p
               className="cursor-pointer text-[20px] hover:text-blue-900"
               onClick={() => setSelected("groups")}
@@ -144,8 +184,11 @@ export default function DataComponent({
               Groups
             </p>
           )}
-          <div
-            className={`
+          {((selected === "users" && allowedRoles && allowedGroups) ||
+            (selected === "groups" && allowedUsers && allowedRoles) ||
+            (selected === "roles" && allowedGroups && allowedUsers)) && (
+            <div
+              className={`
                   ${showRoles && showUsers ? `${designs[selected]}` : ""}
                   ${
                     showGroups && showUsers
@@ -158,9 +201,10 @@ export default function DataComponent({
                       : ""
                   }
                 `}
-          ></div>
+            ></div>
+          )}
         </div>
-        {selected && (
+        {(allowedRoles || allowedGroups || allowedUsers) && (
           <BasicTable
             rows={entity[selected]}
             onDelete={() => {}}

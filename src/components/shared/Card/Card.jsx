@@ -3,9 +3,13 @@ import UserServices from "../../../services/users.services.js";
 import RolesServices from "../../../services/roles.services.js";
 import GroupsServices from "../../../services/groups.services.js";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../context/AuthProvider.jsx";
+import { checkPerm } from "../../../utils/permissions.utils.js";
 
 export default function Card({ entity }) {
+  const { permissions } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const [number, setNumber] = useState(0);
   useEffect(() => {
@@ -25,6 +29,9 @@ export default function Card({ entity }) {
     };
     getCount();
   }, [entity.name]);
+  if (!checkPerm(permissions, { name: "Read", entityType: entity.name })) {
+    return null;
+  }
   return (
     <div className="w-[300px] box-border p-[20px] border border-solid border-gray-300">
       <div
