@@ -6,6 +6,7 @@ import AddUpdate from "./views/AddUpdate/AddUpdate";
 import LoginView from "./views/Login/LoginView";
 import Layout from "./components/Layout/Layout";
 import ViewData from "./views/View-Mode/ViewData";
+import ProtectedRoute from "./hoc/ProtectedComponent";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { faUser, faUserGroup, faGear } from "@fortawesome/free-solid-svg-icons";
 import WithAuth from "./hoc/WithAuth";
@@ -21,89 +22,174 @@ function App() {
           <Route path="/" element={<LoginView />} />
           <Route path="/" element={<ProtectedLayout />}>
             <Route path="home" element={<Home />} />
-            <Route path="users" element={<Users />} />
-            <Route path="groups" element={<Groups />} />
-            <Route path="roles" element={<Roles />} />
+            <Route
+              path="users"
+              element={
+                <ProtectedRoute
+                  element={<Users />}
+                  requiredPerms={[{ name: "Read", entityType: "Users" }]}
+                />
+              }
+            />
+            <Route
+              path="groups"
+              element={
+                <ProtectedRoute
+                  element={<Groups />}
+                  requiredPerms={[{ name: "Read", entityType: "Groups" }]}
+                />
+              }
+            />
+            <Route
+              path="roles"
+              element={
+                <ProtectedRoute
+                  element={<Roles />}
+                  requiredPerms={[{ name: "Read", entityType: "Roles" }]}
+                />
+              }
+            />
             <Route
               path="add-new-user"
-              element={<AddUpdate entity={"user"} icon={faUser} task={"add"} />}
+              element={
+                <ProtectedRoute
+                  element={
+                    <AddUpdate entity={"user"} icon={faUser} task={"add"} />
+                  }
+                  requiredPerms={[{ name: "Create", entityType: "Users" }]}
+                />
+              }
             />
             <Route
               path="add-new-group"
               element={
-                <AddUpdate entity={"group"} icon={faUserGroup} task={"add"} />
+                <ProtectedRoute
+                  element={
+                    <AddUpdate
+                      entity={"group"}
+                      icon={faUserGroup}
+                      task={"add"}
+                    />
+                  }
+                  requiredPerms={[{ name: "Create", entityType: "Groups" }]}
+                />
               }
             />
             <Route
               path="add-new-role"
-              element={<AddUpdate entity={"role"} icon={faGear} task={"add"} />}
+              element={
+                <ProtectedRoute
+                  element={
+                    <AddUpdate entity={"role"} icon={faGear} task={"add"} />
+                  }
+                  requiredPerms={[{ name: "Create", entityType: "Roles" }]}
+                />
+              }
             />
             <Route
               path="edit-role"
               element={
-                <AddUpdate entity={"role"} icon={faGear} task={"update"} />
+                <ProtectedRoute
+                  element={
+                    <AddUpdate entity={"role"} icon={faGear} task={"update"} />
+                  }
+                  requiredPerms={[{ name: "Update", entityType: "Roles" }]}
+                />
               }
             />
             <Route
               path="edit-user"
               element={
-                <AddUpdate entity={"user"} icon={faUser} task={"update"} />
+                <ProtectedRoute
+                  element={
+                    <AddUpdate entity={"user"} icon={faUser} task={"update"} />
+                  }
+                  requiredPerms={[{ name: "Update", entityType: "Users" }]}
+                />
               }
             />
             <Route
               path="edit-group"
               element={
-                <AddUpdate
-                  entity={"group"}
-                  icon={faUserGroup}
-                  task={"update"}
+                <ProtectedRoute
+                  element={
+                    <AddUpdate
+                      entity={"group"}
+                      icon={faUserGroup}
+                      task={"update"}
+                    />
+                  }
+                  requiredPerms={[{ name: "Update", entityType: "Groups" }]}
                 />
               }
             />
             <Route
               path="/users/:id"
               element={
-                <ViewData
-                  entity={"users"}
-                  showRoles={true}
-                  showGroups={true}
-                  showUsers={false}
+                <ProtectedRoute
+                  element={
+                    <ViewData
+                      entity={"users"}
+                      showRoles={true}
+                      showGroups={true}
+                      showUsers={false}
+                    />
+                  }
+                  requiredPerms={[{ name: "Read", entityType: "Users" }]}
                 />
               }
             />
             <Route
-              path="/roles/:id"
+              path="roles/:id"
               element={
-                <ViewData
-                  entity={"roles"}
-                  showRoles={false}
-                  showGroups={true}
-                  showUsers={true}
+                <ProtectedRoute
+                  element={
+                    <ViewData
+                      entity={"roles"}
+                      showRoles={false}
+                      showGroups={true}
+                      showUsers={true}
+                    />
+                  }
+                  requiredPerms={[{ name: "Read", entityType: "Roles" }]}
                 />
               }
             />
             <Route
               path="/groups/:id"
               element={
-                <ViewData
-                  entity={"groups"}
-                  showRoles={true}
-                  showGroups={false}
-                  showUsers={true}
+                <ProtectedRoute
+                  element={
+                    <ViewData
+                      entity={"groups"}
+                      showRoles={true}
+                      showGroups={false}
+                      showUsers={true}
+                    />
+                  }
+                  requiredPerms={[{ name: "Read", entityType: "Groups" }]}
                 />
               }
             />
             <Route
               path="/users/:id/change-password"
               element={
-                <AddUpdate
-                  entity={"user"}
-                  icon={faUser}
-                  task={"change-password"}
+                <ProtectedRoute
+                  element={
+                    <AddUpdate
+                      entity={"user"}
+                      icon={faUser}
+                      task={"change-password"}
+                    />
+                  }
+                  requiredPerms={[
+                    { name: "Change-Password", entityType: "Users" },
+                  ]}
                 />
               }
             />
           </Route>
+          <Route path="*" element={<p>Not Found 404</p>} />
         </Routes>
       </BrowserRouter>
     </React.Fragment>

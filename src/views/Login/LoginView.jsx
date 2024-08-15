@@ -10,6 +10,11 @@ export default function LoginView() {
   const { token, setToken } = React.useContext(AuthContext);
   const navigate = useNavigate();
   const [err, setErr] = useState(false);
+
+  if (token) {
+    navigate("/home");
+  }
+
   const handleLogin = async (logdata) => {
     const us = new UserServices();
     try {

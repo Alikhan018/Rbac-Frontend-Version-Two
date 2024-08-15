@@ -1,28 +1,46 @@
-import React, {
-  createContext,
-  useState,
-  useLayoutEffect,
-  useMemo,
-} from "react";
-
-// Create AuthContext with a default value (optional)
+import React, { createContext, useState, useEffect, useMemo } from "react";
+import UserServices from "../services/users.services";
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(() => {
+    return localStorage.getItem("token");
+  });
+
+  const [user, setUser] = useState(null);
+  const [permissions, setPermissions] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useLayoutEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setToken(storedToken);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const us = new UserServices();
+      const response = await us.getUser(token);
+      const userData = response.data;
+
+      const userPermissions = userData.features.map((f) => f);
+      userData.roles.forEach((role) => {
+        role.features.forEach((feature) => userPermissions.push(feature));
+      });
+
+      userData.groups.forEach((group) => {
+        group.features.forEach((feature) => userPermissions.push(feature));
+      });
+
+      setUser(userData);
+      setPermissions(userPermissions);
+      setLoading(false);
+    };
+
+    if (token) {
+      fetchUser();
+    } else {
+      setLoading(false);
     }
-    setLoading(false);
-  }, []); // Empty dependency array ensures this runs only once
+  }, [token]);
 
   const contextValue = useMemo(
-    () => ({ token, loading, setToken }),
-    [token, loading]
+    () => ({ token, loading, user, permissions, setToken }),
+    [token, loading, user, permissions]
   );
 
   return (

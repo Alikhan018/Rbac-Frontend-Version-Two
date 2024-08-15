@@ -7,8 +7,8 @@ export default function Home() {
     <>
       <div className="w-[100%] p-[20px] flex gap-[20px] flex-wrap">
         <Card entity={users} />
-        <Card entity={groups} />
         <Card entity={roles} />
+        <Card entity={groups} />
       </div>
     </>
   );

@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { jwtDecode } from "jwt-decode";
 export default class UserServices {
   constructor() {
     this.baseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -14,6 +14,21 @@ export default class UserServices {
       password,
     });
     return user.data;
+  }
+  async getUser(token) {
+    try {
+      if (!this.baseUrl) {
+        throw new Error("Base URL is not defined");
+      }
+      const decoded = jwtDecode(token);
+      const response = await axios.get(
+        `${this.baseUrl}/users/${decoded.refinedFromUser.id}`
+      );
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
   }
   async getAllUsers() {
     try {
