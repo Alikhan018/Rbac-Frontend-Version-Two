@@ -53,6 +53,12 @@ export default WithAuth(function Navbar() {
           <li className="">
             <NavLink link={"/users"} name={"Users"} />
           </li>
+          <li className="">
+            <NavLink link={"/roles"} name={"Roles"} />
+          </li>
+          <li className="">
+            <NavLink link={"/groups"} name={"Groups"} />
+          </li>
         </ul>
       </nav>
       <div className="p-[10px] pr-[20px] flex justify-end items-center">
