@@ -11,6 +11,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { faUser, faUserGroup, faGear } from "@fortawesome/free-solid-svg-icons";
 import WithAuth from "./hoc/WithAuth";
 import React from "react";
+import NotFound from "./components/NotFound/NotFound";
 
 const ProtectedLayout = WithAuth(Layout);
 
@@ -188,8 +189,8 @@ function App() {
                 />
               }
             />
+            <Route path="*" element={<NotFound />} />
           </Route>
-          <Route path="*" element={<p>Not Found 404</p>} />
         </Routes>
       </BrowserRouter>
     </React.Fragment>

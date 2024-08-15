@@ -40,6 +40,7 @@ export default function DataComponent({
 
   const [allowUpdate, setAllowUpdate] = useState(false);
   const [allowDelete, setAllowDelete] = useState(false);
+
   const initialSelected = useMemo(() => {
     if (allowedRoles && type !== "groups") return "roles";
     if (allowedUsers && type !== "users") return "users";
@@ -71,6 +72,7 @@ export default function DataComponent({
   }, [type, permissions]);
 
   const [selected, setSelected] = useState(initialSelected);
+
   return (
     <div className="flex gap-[60px]">
       <div className="flex flex-col gap-[10px]">

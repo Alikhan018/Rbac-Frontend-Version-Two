@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect, useRef } from "react";
 import SettingsDropDown from "../SettingsDropDown/SettingsDropDown";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import WithAuth from "../../hoc/WithAuth";
+import NavLink from "../shared/NavLink/NavLink";
 
 export default WithAuth(function Navbar() {
   const [isHovered, setIsHovered] = useState(false);
@@ -45,16 +46,12 @@ export default WithAuth(function Navbar() {
         />
       </div>
       <nav className="flex w-[100%] justify-center p-[10px]">
-        <ul className="p-[10px] flex gap-[30px] justify-between">
-          <li className="list-style-none">
-            <Link to="/home" className="hover:text-blue-900">
-              Home
-            </Link>
+        <ul className="p-[10px] flex gap-[30px] justify-between list-style-none">
+          <li className="">
+            <NavLink link={"/home"} name={"Home"} />
           </li>
-          <li className="list-style-none">
-            <Link to="/users" className="hover:text-blue-900">
-              Users
-            </Link>
+          <li className="">
+            <NavLink link={"/users"} name={"Users"} />
           </li>
         </ul>
       </nav>
